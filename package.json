@@ -1,6 +1,6 @@
 {
   "name": "reflux",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "description": "A simple library for uni-directional dataflow application architecture inspired by ReactJS Flux",
   "main": "src/index.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "browserify": "~10.2.3",
     "chai": "latest",
     "chai-as-promised": "latest",
+    "create-react-class": "^15.6.3",
     "es6-promise": "^2.3.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "3.8.0",
@@ -56,10 +57,11 @@
     "matchdep": "^0.3.0",
     "mocha": "latest",
     "q": "^1.0.1",
-    "react-dom": "^15.0.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "sinon": "^1.10.3"
   },
   "peerDependencies": {
-    "react": "^15.0.2"
+    "react": "^16.0.0"
   }
 }

@@ -3,10 +3,11 @@ var chai = require('chai');
 var assert = chai.assert;
 chai.use(require('chai-as-promised'));
 
-	
+
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 var Reflux = require('../src');
+var createReactClass = require('create-react-class');
 
 
 function __extends (d, b) {
@@ -27,10 +28,10 @@ describe('Creating ES6 style React classes', function()
 	it('should allow defining of React with Reflux.defineReact without error', function()
 	{
 		Reflux.defineReact(React);
-		
+
 		return true;
 	});
-	
+
 	it('should render a simple class extending Reflux.Component', function()
 	{
 		var MyComponent = (function (_super) {
@@ -45,9 +46,9 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyComponent, null) );
-		
+
 		assert.equal( result, '<p>Hello World</p>' );
 	});
 
@@ -65,20 +66,20 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyComponent, {foo:'bar'}) );
-		
+
 		assert.equal( result, '<p>bar</p>' );
 	});
-	
+
 	it('should accept React ancestors and children', function()
 	{
-		var MyChild = React.createClass({
+		var MyChild = createReactClass({
 			render: function() {
 				return React.createElement("span", null, 'Hello');
 			}
 		});
-		
+
 		var MyComponent = (function (_super) {
 			__extends(Component, _super);
 			function Component(props) {
@@ -91,18 +92,18 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
-		var MyParent = React.createClass({
+
+		var MyParent = createReactClass({
 			render: function() {
 				return React.createElement("div", null, React.createElement(MyComponent, null));
 			}
 		});
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyParent, null) );
-		
+
 		assert.equal( result, '<div><p><span>Hello</span></p></div>' );
 	});
-	
+
 	it('should accept other Reflux.Component ancestors and children', function()
 	{
 		var MyChild = (function (_super) {
@@ -117,7 +118,7 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Child;
 		}(Reflux.Component));
-		
+
 		var MyComponent = (function (_super) {
 			__extends(Component, _super);
 			function Component(props) {
@@ -130,7 +131,7 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
+
 		var MyParent = (function (_super) {
 			__extends(Parent, _super);
 			function Parent(props) {
@@ -143,12 +144,12 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Parent;
 		}(Reflux.Component));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyParent, null) );
-		
+
 		assert.equal( result, '<div><p><span>World</span></p></div>' );
 	});
-	
+
 	it('should accept values from a store\'s state property', function()
 	{
 		var MyComponent = (function (_super) {
@@ -163,12 +164,12 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyComponent, null) );
-		
+
 		assert.equal( result, '<p>baz</p>' );
 	});
-	
+
 	it('should accept values from multiple stores', function()
 	{
 		var MyComponent = (function (_super) {
@@ -183,12 +184,12 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyComponent, null) );
-		
+
 		assert.equal( result, '<p>foo:bar</p>' );
 	});
-	
+
 	it('should retain normal React state values', function()
 	{
 		var MyComponent = (function (_super) {
@@ -203,12 +204,12 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyComponent, null) );
-		
+
 		assert.equal( result, '<p>foo:bar</p>' );
 	});
-	
+
 	it('should extend third party components with Reflux.Component.extend()', function()
 	{
 		var OtherComponent = (function (_super) {
@@ -219,7 +220,7 @@ describe('Creating ES6 style React classes', function()
 			}
 			return Component;
 		}(React.Component));
-		
+
 		var MyComponent = (function (_super) {
 			__extends(Component, _super);
 			function Component(props) {
@@ -231,9 +232,9 @@ describe('Creating ES6 style React classes', function()
 			};
 			return Component;
 		}(Reflux.Component.extend(OtherComponent)));
-		
+
 		var result = ReactDOMServer.renderToStaticMarkup( React.createElement(MyComponent, null) );
-		
+
 		assert.equal( result, '<p>other class bar and baz</p>' );
 	});
 
